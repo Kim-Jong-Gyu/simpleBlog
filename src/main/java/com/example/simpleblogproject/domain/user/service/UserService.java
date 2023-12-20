@@ -1,6 +1,7 @@
 package com.example.simpleblogproject.domain.user.service;
 
 
+import com.example.simpleblogproject.domain.redis.RedisUtil;
 import com.example.simpleblogproject.domain.user.dto.SignupRequestDto;
 import com.example.simpleblogproject.domain.user.entity.User;
 import com.example.simpleblogproject.domain.user.repository.UserRepository;
@@ -20,6 +21,8 @@ public class UserService {
 
     private final PasswordEncoder passwordEncoder;
 
+    private final RedisUtil redisUtil;
+
     public CommonResponse signup(SignupRequestDto requestDto) {
         String nickname = requestDto.getNickname();
         String password = requestDto.getPassword();
@@ -29,6 +32,9 @@ public class UserService {
         }
         if(!password.equals(requestDto.getCheckPassword())){
             throw new CustomException(ExceptionResponseCode.PASSWORD_MACH_CHECKPASSWORD);
+        }
+        if(!redisUtil.getData(requestDto.getAuthNum()).equals(requestDto.getEmail())){
+            throw new CustomException(ExceptionResponseCode.EMAIL_CODE_NOT_MATCH);
         }
         User user = User.builder()
                 .nickname(nickname)
