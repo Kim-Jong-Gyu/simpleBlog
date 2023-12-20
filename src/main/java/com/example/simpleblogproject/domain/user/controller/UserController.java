@@ -3,16 +3,12 @@ package com.example.simpleblogproject.domain.user.controller;
 
 import com.example.simpleblogproject.domain.user.dto.SignupRequestDto;
 import com.example.simpleblogproject.domain.user.service.UserService;
-import com.example.simpleblogproject.global.CommonResponseCode;
-import com.example.simpleblogproject.global.CommonResponseDto;
+import com.example.simpleblogproject.global.common.CommonResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,9 +18,15 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/signup")
-    public ResponseEntity<CommonResponseDto> signup(@Valid @RequestBody SignupRequestDto requestDto){
-        CommonResponseDto commonResponseDto = userService.signup(requestDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(commonResponseDto);
+    public ResponseEntity<CommonResponse> signup(@Valid @RequestBody SignupRequestDto requestDto){
+        CommonResponse commonResponse = userService.signup(requestDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(commonResponse);
+    }
+
+    @GetMapping("/validateDuplicateNickname/{nickname}")
+    public ResponseEntity<CommonResponse> validateDuplicateNickname(@PathVariable String nickname){
+        CommonResponse commonResponse = userService.validateDuplicateUser(nickname);
+        return ResponseEntity.status(HttpStatus.OK).body(commonResponse);
     }
 
 }
