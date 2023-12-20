@@ -1,4 +1,4 @@
-package com.example.simpleblogproject.global.security;
+package com.example.simpleblogproject.domain.security;
 
 
 import org.springframework.context.annotation.Bean;
