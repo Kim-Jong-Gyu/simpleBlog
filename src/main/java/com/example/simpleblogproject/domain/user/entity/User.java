@@ -1,9 +1,14 @@
 package com.example.simpleblogproject.domain.user.entity;
 
+import com.example.simpleblogproject.domain.post.entity.Post;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -24,10 +29,18 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     private UserRoleEnum role;
 
+    @OneToMany(mappedBy = "user")
+    private List<Post> postList = new ArrayList<>();
+
     @Builder
     public User(String nickname, String password, UserRoleEnum role){
         this.nickname = nickname;
         this.password = password;
         this.role = role;
+    }
+
+    public void addPost(Post post) {
+        this.postList.add(post);
+        Post.builder().user(this).build();
     }
 }
