@@ -6,7 +6,9 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 
+// BackOffice 기능 확장성을 위해 권환을 추가
 @Getter
 public class SignupRequestDto {
 
@@ -26,4 +28,7 @@ public class SignupRequestDto {
 
     @NotEmpty(message = "인증 번호를 입력해주세요")
     private String authNum;
+
+    @ColumnDefault("false")
+    private boolean admin;
 }
