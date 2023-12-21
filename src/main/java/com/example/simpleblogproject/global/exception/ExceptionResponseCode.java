@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 @Getter
 public enum ExceptionResponseCode {
 
+    // 해당 유저가 없습니다.
+    NOT_FOUND_USER(HttpStatus.NOT_FOUND, "해당 유저가 없습니다."),
     // 패스워드에 닉네임이 들어가 있다.
     PASSWORD_CONTAIN_NICKNAME(HttpStatus.BAD_REQUEST, "비밀번호에 닉네임이 포함되어 있습니다."),
     //비밀번호랑 비밀번호 확인이랑 일치하지 않다.
