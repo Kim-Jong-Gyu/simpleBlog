@@ -15,7 +15,9 @@ public enum ExceptionResponseCode {
     //중복된 닉네임입니다.
     NICKNAME_DUPLICATE(HttpStatus.CONFLICT, "중복된 이메일입니다."),
     //이메일 인증 코드가 일치하지 않습니다.
-    EMAIL_CODE_NOT_MATCH(HttpStatus.BAD_REQUEST, "이메일 인증번호가 일치하지 않습니다.");
+    EMAIL_CODE_NOT_MATCH(HttpStatus.BAD_REQUEST, "이메일 인증번호가 일치하지 않습니다."),
+    //백오피스 기능 활성화 X
+    NOT_OPERATE_BACKOFFICE(HttpStatus.BAD_REQUEST, "백 오피스 기능을 아직 구현하지 않았습니다.");
     private final HttpStatus httpStatus;
     private final String message;
 }
