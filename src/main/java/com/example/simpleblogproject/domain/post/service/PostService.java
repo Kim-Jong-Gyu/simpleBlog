@@ -1,23 +1,25 @@
 package com.example.simpleblogproject.domain.post.service;
 
 import com.example.simpleblogproject.domain.post.dto.AddPostRequestDto;
+import com.example.simpleblogproject.domain.post.dto.GetTotalPostsResponseDto;
 import com.example.simpleblogproject.domain.post.entity.Post;
 import com.example.simpleblogproject.domain.post.repository.PostRepository;
 import com.example.simpleblogproject.domain.s3.S3Service;
-import com.example.simpleblogproject.domain.s3.S3Util;
 import com.example.simpleblogproject.domain.user.entity.User;
-import com.example.simpleblogproject.domain.user.entity.UserRoleEnum;
 import com.example.simpleblogproject.domain.user.repository.UserRepository;
 import com.example.simpleblogproject.global.common.CommonResponse;
 import com.example.simpleblogproject.global.common.CommonResponseCode;
 import com.example.simpleblogproject.global.exception.CustomException;
 import com.example.simpleblogproject.global.exception.ExceptionResponseCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.io.UnsupportedEncodingException;
-import java.util.Optional;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -45,6 +47,13 @@ public class PostService {
         postRepository.save(post);
         user.addPost(post);
         return new CommonResponse(CommonResponseCode.ADD_POST_SUCCESS);
+    }
+
+    public List<GetTotalPostsResponseDto> getTotalPosts(int page, int size, String sortBy, boolean isAsc) {
+        Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Sort sort = Sort.by(direction, sortBy);
+        Pageable pageable = PageRequest.of(page,size,sort);
+        return postRepository.findAll(pageable).map(GetTotalPostsResponseDto::new).getContent();
     }
 
 }

@@ -69,7 +69,8 @@ public class SecurityConfig {
         httpSecurity.authorizeHttpRequests((authorizeHttpRequests) ->
                 authorizeHttpRequests
                         .requestMatchers("/users/**").permitAll()
-                        .requestMatchers("/email/**").permitAll()
+                        .requestMatchers("/emails/**").permitAll()
+                        .requestMatchers("/posts/total").permitAll()
                         .anyRequest().authenticated() // 그 외 모든 요청 인증처리
         );
 
