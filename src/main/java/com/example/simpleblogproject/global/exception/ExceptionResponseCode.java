@@ -23,7 +23,9 @@ public enum ExceptionResponseCode {
     // 해당 POST ID는 User가 작성한게 아닙니다.
     NOT_MATCH_USER_POST(HttpStatus.BAD_REQUEST, "해당 유저가 해당 포스트를 작성하지 않았습니다."),
     //백오피스 기능 활성화 X
-    NOT_OPERATE_BACKOFFICE(HttpStatus.BAD_REQUEST, "백 오피스 기능을 아직 구현하지 않았습니다.");
+    NOT_OPERATE_BACKOFFICE(HttpStatus.BAD_REQUEST, "백 오피스 기능을 아직 구현하지 않았습니다."),
+    // 해당 댓글이 없습니다.
+    NOT_FOUND_COMMENT(HttpStatus.NOT_FOUND, "해당 댓글이 없습니다.");
     private final HttpStatus httpStatus;
     private final String message;
 }
