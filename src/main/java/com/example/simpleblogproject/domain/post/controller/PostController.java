@@ -1,5 +1,6 @@
 package com.example.simpleblogproject.domain.post.controller;
 
+import com.example.simpleblogproject.domain.comment.dto.GetCommentResponseDto;
 import com.example.simpleblogproject.domain.post.dto.AddPostRequestDto;
 import com.example.simpleblogproject.domain.post.dto.GetPostResponseDto;
 import com.example.simpleblogproject.domain.post.dto.GetTotalPostsResponseDto;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/posts")
@@ -46,8 +48,8 @@ public class PostController {
 
     @GetMapping("/{postId}")
     public ResponseEntity<GetPostResponseDto> getPost(@PathVariable Long postId){
-        GetPostResponseDto getPostResponseDto = postService.getPost(postId);
-        return ResponseEntity.status(HttpStatus.OK).body(getPostResponseDto);
+        GetPostResponseDto responseDto = postService.getPost(postId);
+        return ResponseEntity.status(HttpStatus.OK).body(responseDto);
     }
 
     @PatchMapping("/{postId}")

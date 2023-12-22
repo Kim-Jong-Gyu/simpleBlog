@@ -2,9 +2,8 @@ package com.example.simpleblogproject.domain.comment.controller;
 
 
 import com.example.simpleblogproject.domain.comment.dto.AddCommentRequestDto;
-import com.example.simpleblogproject.domain.comment.dto.GetTotalCommentResponseDto;
+import com.example.simpleblogproject.domain.comment.dto.GetCommentResponseDto;
 import com.example.simpleblogproject.domain.comment.service.CommentService;
-import com.example.simpleblogproject.domain.post.dto.GetTotalPostsResponseDto;
 import com.example.simpleblogproject.domain.security.userDetails.UserDetailsImpl;
 import com.example.simpleblogproject.global.common.CommonResponse;
 import lombok.RequiredArgsConstructor;
@@ -39,14 +38,14 @@ public class CommentController {
     }
 
     @GetMapping("/total")
-    public ResponseEntity<List<GetTotalCommentResponseDto>> getTotalPosts(
+    public ResponseEntity<List<GetCommentResponseDto>> getTotalPosts(
             @RequestParam("page") int page,
             @RequestParam("size") int size,
             @RequestParam("sortBy") String sortBy,
             @RequestParam("isAsc") boolean isAsc
     ){
-        List<GetTotalCommentResponseDto> getTotalCommentResponseDto = commentService.getTotalComments(page - 1, size, sortBy, isAsc);
-        return ResponseEntity.status(HttpStatus.OK).body(getTotalCommentResponseDto);
+        List<GetCommentResponseDto> getCommentResponseDto = commentService.getTotalComments(page - 1, size, sortBy, isAsc);
+        return ResponseEntity.status(HttpStatus.OK).body(getCommentResponseDto);
     }
 
 }
