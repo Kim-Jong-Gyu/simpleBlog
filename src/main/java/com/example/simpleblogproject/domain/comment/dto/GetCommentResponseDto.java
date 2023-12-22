@@ -7,11 +7,11 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class GetTotalCommentResponseDto {
+public class GetCommentResponseDto {
     private String nickname;
     private String comment;
 
-    public GetTotalCommentResponseDto(Comment comment){
+    public GetCommentResponseDto(Comment comment){
         this.nickname = comment.getUser().getNickname();
         this.comment = comment.getComment();
     }

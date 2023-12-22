@@ -1,5 +1,7 @@
 package com.example.simpleblogproject.domain.post.service;
 
+import com.example.simpleblogproject.domain.comment.dto.GetCommentResponseDto;
+import com.example.simpleblogproject.domain.comment.entity.Comment;
 import com.example.simpleblogproject.domain.post.dto.AddPostRequestDto;
 import com.example.simpleblogproject.domain.post.dto.GetPostResponseDto;
 import com.example.simpleblogproject.domain.post.dto.GetTotalPostsResponseDto;
@@ -23,7 +25,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @Service
@@ -63,8 +67,13 @@ public class PostService {
     }
 
     public GetPostResponseDto getPost(Long postId) {
+        Post post = findById(postId);
+        List<GetCommentResponseDto> getCommentResponseDtoList = post.getCommentList().stream().map(GetCommentResponseDto::new).toList();
         return GetPostResponseDto.builder()
-                .post(findById(postId))
+                .nickname(post.getUser().getNickname())
+                .createdAt(post.getCreatedAt())
+                .content(post.getContent())
+                .commentList(getCommentResponseDtoList)
                 .build();
     }
 
