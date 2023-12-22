@@ -29,7 +29,9 @@ public enum CommonResponseCode {
 
     //좋아요 증가가 성공했습니다.
     ADD_LIKE_SUCCESS(HttpStatus.OK, "해당 게시글에 대한 좋아요가 1증가 했습니다."),
-    //
+    // 댓글 삭제에 성공했습니다.
+    DELETE_COMMENT_SUCCESS(HttpStatus.OK, "댓글 삭제에 성공했습니다."),
+    // 댓글 수정에 성공했습니다
     UPDATE_COMMENT_SUCCESS(HttpStatus.OK, "댓글 수정에 성공 했습니다.");
 
     private final HttpStatus httpStatus;

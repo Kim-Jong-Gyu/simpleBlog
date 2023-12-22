@@ -89,4 +89,15 @@ public class CommentService {
         comment.update(requestDto);
         return new CommonResponse(CommonResponseCode.UPDATE_COMMENT_SUCCESS);
     }
+
+    public CommonResponse deleteComment(Long userId, Long commentId) {
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new CustomException(ExceptionResponseCode.NOT_FOUND_USER)
+        );
+        Comment comment = commentRepository.findById(commentId).orElseThrow(
+                () -> new CustomException(ExceptionResponseCode.NOT_FOUND_COMMENT)
+        );
+        commentRepository.delete(comment);
+        return new CommonResponse(CommonResponseCode.DELETE_COMMENT_SUCCESS);
+    }
 }

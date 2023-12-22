@@ -22,19 +22,18 @@ import java.util.List;
 public class CommentController {
 
     private final CommentService commentService;
+
     @PostMapping("/{postId}")
     public ResponseEntity<CommonResponse> addComment(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                                      @RequestBody AddCommentRequestDto requestDto,
-                                                     @PathVariable Long postId)
-    {
+                                                     @PathVariable Long postId) {
         CommonResponse commonResponse = commentService.addComment(userDetails.getUser().getId(), requestDto, postId);
         return ResponseEntity.status(HttpStatus.OK).body(commonResponse);
     }
 
     @PatchMapping("/{postId}/like")
     public ResponseEntity<CommonResponse> addLike(@AuthenticationPrincipal UserDetailsImpl userDetails,
-                                                  @PathVariable Long postId)
-    {
+                                                  @PathVariable Long postId) {
         CommonResponse commonResponse = commentService.addLike(userDetails.getUser().getId(), postId);
         return ResponseEntity.status(HttpStatus.OK).body(commonResponse);
     }
@@ -45,7 +44,7 @@ public class CommentController {
             @RequestParam("size") int size,
             @RequestParam("sortBy") String sortBy,
             @RequestParam("isAsc") boolean isAsc
-    ){
+    ) {
         List<GetCommentResponseDto> getCommentResponseDto = commentService.getTotalComments(page - 1, size, sortBy, isAsc);
         return ResponseEntity.status(HttpStatus.OK).body(getCommentResponseDto);
     }
@@ -54,8 +53,16 @@ public class CommentController {
     public ResponseEntity<CommonResponse> updateComment(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                                         @RequestBody UpdateCommentRequestDto requestDto,
                                                         @PathVariable Long commentId
-    ){
+    ) {
         CommonResponse commonResponse = commentService.updateComment(userDetails.getUser().getId(), requestDto, commentId);
         return ResponseEntity.status(HttpStatus.OK).body(commonResponse);
     }
+
+    @DeleteMapping("/{commentId}")
+    public ResponseEntity<CommonResponse> deleteComment(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                                        @PathVariable Long commentId) {
+        CommonResponse commonResponse = commentService.deleteComment(userDetails.getUser().getId(), commentId);
+        return ResponseEntity.status(HttpStatus.OK).body(commonResponse);
+    }
+
 }
