@@ -99,7 +99,10 @@ public class PostService {
         LocalDateTime ninetyDaysAgo = now.minusDays(90);
         List<Post> postList = postRepository.findByModifiedAtLessThan(ninetyDaysAgo);
         if(!postList.isEmpty()){
-            postRepository.deleteAll(postList);
+            for(Post post : postList){
+                s3Service.deleteImage(post.getPicturePath());
+                postRepository.delete(post);
+            }
         }
     }
 

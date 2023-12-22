@@ -50,7 +50,14 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String username = ((UserDetailsImpl) authResult.getPrincipal()).getUsername();
         UserRoleEnum role = ((UserDetailsImpl) authResult.getPrincipal()).getUser().getRole();
 
-        String token = jwtUtil.createToken(username, role);
+        response.setStatus(200);
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+        String msg = "로그인에 성공했습니다.";
+
+        response.getWriter().write(msg);
+        response.getWriter().flush();String token = jwtUtil.createToken(username, role);
         jwtUtil.addJwtToCookie(token, response);
     }
 
