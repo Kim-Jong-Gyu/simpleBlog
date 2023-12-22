@@ -1,5 +1,6 @@
 package com.example.simpleblogproject.domain.post.entity;
 
+import com.example.simpleblogproject.domain.comment.entity.Comment;
 import com.example.simpleblogproject.domain.post.dto.UpdatePostRequestDto;
 import com.example.simpleblogproject.domain.user.entity.User;
 import com.example.simpleblogproject.domain.user.entity.UserRoleEnum;
@@ -12,6 +13,8 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -53,6 +56,9 @@ public class Post {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @OneToMany(mappedBy = "post", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    private List<Comment> commentList = new ArrayList<>();
+
     @Builder
     public Post(String title, String content, String pictureUrl, String picturePath, User user){
         this.title = title;
@@ -71,5 +77,10 @@ public class Post {
         this.content = requestDto.getContent();
         this.pictureUrl = urlArr[0];
         this.picturePath = urlArr[1];
+    }
+
+    public void addComment(Comment comment) {
+        this.commentList.add(comment);
+        Comment.builder().post(this).build();
     }
 }
