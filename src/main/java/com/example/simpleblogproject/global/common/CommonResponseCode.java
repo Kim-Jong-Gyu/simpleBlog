@@ -28,7 +28,9 @@ public enum CommonResponseCode {
     ADD_POST_SUCCESS(HttpStatus.CREATED, "새로운 POST 생성에 성공했습니다."),
 
     //좋아요 증가가 성공했습니다.
-    ADD_LIKE_SUCCESS(HttpStatus.OK, "해당 게시글에 대한 좋아요가 1증가 했습니다.");
+    ADD_LIKE_SUCCESS(HttpStatus.OK, "해당 게시글에 대한 좋아요가 1증가 했습니다."),
+    //
+    UPDATE_COMMENT_SUCCESS(HttpStatus.OK, "댓글 수정에 성공 했습니다.");
 
     private final HttpStatus httpStatus;
     private final String message;

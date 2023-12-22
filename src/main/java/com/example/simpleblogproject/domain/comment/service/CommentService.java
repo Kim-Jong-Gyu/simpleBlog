@@ -2,6 +2,7 @@ package com.example.simpleblogproject.domain.comment.service;
 
 import com.example.simpleblogproject.domain.comment.dto.AddCommentRequestDto;
 import com.example.simpleblogproject.domain.comment.dto.GetCommentResponseDto;
+import com.example.simpleblogproject.domain.comment.dto.UpdateCommentRequestDto;
 import com.example.simpleblogproject.domain.comment.entity.Comment;
 import com.example.simpleblogproject.domain.comment.repository.CommentRepository;
 import com.example.simpleblogproject.domain.post.entity.Post;
@@ -75,5 +76,17 @@ public class CommentService {
         Sort sort = Sort.by(direction, sortBy);
         Pageable pageable = PageRequest.of(page,size,sort);
         return commentRepository.findAll(pageable).map(GetCommentResponseDto::new).getContent();
+    }
+
+    @Transactional
+    public CommonResponse updateComment(Long userId, UpdateCommentRequestDto requestDto, Long commentId) {
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new CustomException(ExceptionResponseCode.NOT_FOUND_USER)
+        );
+        Comment comment = commentRepository.findById(commentId).orElseThrow(
+                () -> new CustomException(ExceptionResponseCode.NOT_FOUND_COMMENT)
+        );
+        comment.update(requestDto);
+        return new CommonResponse(CommonResponseCode.UPDATE_COMMENT_SUCCESS);
     }
 }

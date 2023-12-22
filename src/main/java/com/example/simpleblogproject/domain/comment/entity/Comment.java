@@ -1,5 +1,6 @@
 package com.example.simpleblogproject.domain.comment.entity;
 
+import com.example.simpleblogproject.domain.comment.dto.UpdateCommentRequestDto;
 import com.example.simpleblogproject.domain.post.entity.Post;
 import com.example.simpleblogproject.domain.user.entity.User;
 import jakarta.persistence.*;
@@ -46,5 +47,9 @@ public class Comment {
         this.comment = comment;
         this.user = user;
         this.post = post;
+    }
+
+    public void update(UpdateCommentRequestDto requestDto) {
+        this.comment = requestDto.getComment();
     }
 }

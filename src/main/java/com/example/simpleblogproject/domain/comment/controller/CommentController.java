@@ -3,6 +3,7 @@ package com.example.simpleblogproject.domain.comment.controller;
 
 import com.example.simpleblogproject.domain.comment.dto.AddCommentRequestDto;
 import com.example.simpleblogproject.domain.comment.dto.GetCommentResponseDto;
+import com.example.simpleblogproject.domain.comment.dto.UpdateCommentRequestDto;
 import com.example.simpleblogproject.domain.comment.service.CommentService;
 import com.example.simpleblogproject.domain.security.userDetails.UserDetailsImpl;
 import com.example.simpleblogproject.global.common.CommonResponse;
@@ -10,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -48,4 +50,12 @@ public class CommentController {
         return ResponseEntity.status(HttpStatus.OK).body(getCommentResponseDto);
     }
 
+    @PatchMapping("/{commentId}")
+    public ResponseEntity<CommonResponse> updateComment(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                                        @RequestBody UpdateCommentRequestDto requestDto,
+                                                        @PathVariable Long commentId
+    ){
+        CommonResponse commonResponse = commentService.updateComment(userDetails.getUser().getId(), requestDto, commentId);
+        return ResponseEntity.status(HttpStatus.OK).body(commonResponse);
+    }
 }
