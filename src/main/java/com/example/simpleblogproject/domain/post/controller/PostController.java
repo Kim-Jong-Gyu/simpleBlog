@@ -1,6 +1,7 @@
 package com.example.simpleblogproject.domain.post.controller;
 
 import com.example.simpleblogproject.domain.post.dto.AddPostRequestDto;
+import com.example.simpleblogproject.domain.post.dto.GetPostResponseDto;
 import com.example.simpleblogproject.domain.post.dto.GetTotalPostsResponseDto;
 import com.example.simpleblogproject.domain.post.service.PostService;
 import com.example.simpleblogproject.domain.security.userDetails.UserDetailsImpl;
@@ -40,6 +41,12 @@ public class PostController {
     ){
         List<GetTotalPostsResponseDto> getTotalPostsResponseDto = postService.getTotalPosts(page - 1, size, sortBy, isAsc);
         return ResponseEntity.status(HttpStatus.OK).body(getTotalPostsResponseDto);
+    }
+
+    @GetMapping("/{postId}")
+    public ResponseEntity<GetPostResponseDto> getPost(@PathVariable Long postId){
+        GetPostResponseDto getPostResponseDto = postService.getPost(postId);
+        return ResponseEntity.status(HttpStatus.OK).body(getPostResponseDto);
     }
 
 }

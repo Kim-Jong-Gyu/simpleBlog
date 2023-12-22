@@ -71,6 +71,7 @@ public class SecurityConfig {
                         .requestMatchers("/users/**").permitAll()
                         .requestMatchers("/emails/**").permitAll()
                         .requestMatchers("/posts/total").permitAll()
+                        .requestMatchers("/posts/{postId}").permitAll()
                         .anyRequest().authenticated() // 그 외 모든 요청 인증처리
         );
 
