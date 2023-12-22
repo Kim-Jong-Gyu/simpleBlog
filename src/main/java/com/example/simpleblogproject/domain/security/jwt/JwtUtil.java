@@ -24,9 +24,6 @@ import java.util.Date;
 @Component
 @Slf4j
 public class JwtUtil {
-
-    // JWT 데이터
-
     // Header KEY 값
     public static final String AUTHORIZATION_HEADER = "Authorization";
     // 사용자 권한 값의 KEY
@@ -82,14 +79,14 @@ public class JwtUtil {
     }
 
     // Cookie에 들어있던 JWT 토큰을 SubString
-    public String substringToken(String tokenValue) {
+       public String substringToken(String tokenValue) {
         if (StringUtils.hasText(tokenValue) && tokenValue.startsWith(BEARER_PREFIX)) {
             return tokenValue.substring(7);
         }
         logger.error("Not Found Token");
         throw new NullPointerException("Not Found Token");
     }
-    // JWT 검증
+
     // 토큰 검증
     public boolean validateToken(String token) {
         try {

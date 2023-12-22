@@ -1,6 +1,7 @@
 package com.example.simpleblogproject.domain.post.service;
 
 import com.example.simpleblogproject.domain.post.dto.AddPostRequestDto;
+import com.example.simpleblogproject.domain.post.dto.GetPostResponseDto;
 import com.example.simpleblogproject.domain.post.dto.GetTotalPostsResponseDto;
 import com.example.simpleblogproject.domain.post.entity.Post;
 import com.example.simpleblogproject.domain.post.repository.PostRepository;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -54,6 +56,15 @@ public class PostService {
         Sort sort = Sort.by(direction, sortBy);
         Pageable pageable = PageRequest.of(page,size,sort);
         return postRepository.findAll(pageable).map(GetTotalPostsResponseDto::new).getContent();
+    }
+
+    public GetPostResponseDto getPost(Long postId) {
+        return GetPostResponseDto.builder()
+                .post(findById(postId))
+                .build();
+    }
+    private Post findById(Long postId){
+        return postRepository.findById(postId).orElseThrow(() -> new CustomException(ExceptionResponseCode.NOT_FOUND_POST));
     }
 
 }
