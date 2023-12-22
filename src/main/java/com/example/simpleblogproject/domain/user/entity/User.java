@@ -1,5 +1,6 @@
 package com.example.simpleblogproject.domain.user.entity;
 
+import com.example.simpleblogproject.domain.comment.entity.Comment;
 import com.example.simpleblogproject.domain.post.entity.Post;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -32,6 +33,9 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<Post> postList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    private List<Comment> commentList = new ArrayList<>();
+
     @Builder
     public User(String nickname, String password, UserRoleEnum role){
         this.nickname = nickname;
@@ -42,5 +46,10 @@ public class User {
     public void addPost(Post post) {
         this.postList.add(post);
         Post.builder().user(this).build();
+    }
+
+    public void addComment(Comment comment) {
+        this.commentList.add(comment);
+        Comment.builder().user(this).build();
     }
 }

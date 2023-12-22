@@ -18,10 +18,17 @@ public enum CommonResponseCode {
     //이메일 인증에 성공했습니다.
     AUTH_EMAIL_SUCCESS(HttpStatus.OK, "이메일 인증에 성공했습니다."),
 
+    //게시글 업데이트에 성공했습니다.
     UPDATE_POST_SUCCESS(HttpStatus.OK, "게시글 업데이트에 성공했습니다."),
 
+    //댓글 등록에 성공했습니다.
+    ADD_COMMENT_SUCCESS(HttpStatus.CREATED, "댓글 등록에 성공했습니다"),
+
     //Post 생성에 성공했습니다.
-    ADD_POST_SUCCESS(HttpStatus.CREATED, "새로운 POST 생성에 성공했습니다.");
+    ADD_POST_SUCCESS(HttpStatus.CREATED, "새로운 POST 생성에 성공했습니다."),
+
+    //좋아요 증가가 성공했습니다.
+    ADD_LIKE_SUCCESS(HttpStatus.OK, "해당 게시글에 대한 좋아요가 1증가 했습니다.");
 
     private final HttpStatus httpStatus;
     private final String message;
