@@ -17,10 +17,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.UnsupportedEncodingException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -77,6 +79,18 @@ public class PostService {
         }
         post.update(requestDto, urlArr);
         return new CommonResponse(CommonResponseCode.UPDATE_POST_SUCCESS);
+    }
+
+    // 현재시간을 기준으로 수정 날짜가 90일이 지난 경우 삭제하게 한다.
+    // Test를 위해 시간을 5분으로 임시로 설정 -> Sql 폴더에 있는 Sql문을 통해 데이터를 미리 넣는다.
+    @Scheduled(cron = "0 0/5 * * * ?")
+    public void deletePost(){
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime ninetyDaysAgo = now.minusDays(90);
+        List<Post> postList = postRepository.findByModifiedAtLessThan(ninetyDaysAgo);
+        if(!postList.isEmpty()){
+            postRepository.deleteAll(postList);
+        }
     }
 
     private Post findById(Long postId){
