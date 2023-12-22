@@ -47,6 +47,7 @@ public class PostService {
                 .content(requestDto.getContent())
                 .pictureUrl(urlArr[0])
                 .picturePath(urlArr[1])
+                .countLike(0L)
                 .user(user)
                 .build();
         postRepository.save(post);

@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -49,7 +50,7 @@ public class Post {
 
     // like는 예약어다.
     @Column
-    private Long countLike;
+    private Long countLike = 0L;
 
 
     @ManyToOne
@@ -60,12 +61,13 @@ public class Post {
     private List<Comment> commentList = new ArrayList<>();
 
     @Builder
-    public Post(String title, String content, String pictureUrl, String picturePath, User user){
+    public Post(String title, String content, String pictureUrl, String picturePath, User user, Long countLike){
         this.title = title;
         this.content = content;
         this.pictureUrl = pictureUrl;
         this.picturePath = picturePath;
         this.user = user;
+        this.countLike = countLike;
     }
 
     public void setUser(User user) {
@@ -82,5 +84,9 @@ public class Post {
     public void addComment(Comment comment) {
         this.commentList.add(comment);
         Comment.builder().post(this).build();
+    }
+
+    public void addLike() {
+        this.countLike+= 1;
     }
 }

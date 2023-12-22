@@ -26,4 +26,12 @@ public class CommentController {
         return ResponseEntity.status(HttpStatus.OK).body(commonResponse);
     }
 
+    @PatchMapping("/{postId}/like")
+    public ResponseEntity<CommonResponse> addLike(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                                  @PathVariable Long postId)
+    {
+        CommonResponse commonResponse = commentService.addLike(userDetails.getUser().getId(), postId);
+        return ResponseEntity.status(HttpStatus.OK).body(commonResponse);
+    }
+
 }

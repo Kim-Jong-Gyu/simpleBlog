@@ -12,9 +12,14 @@ import com.example.simpleblogproject.global.common.CommonResponseCode;
 import com.example.simpleblogproject.global.exception.CustomException;
 import com.example.simpleblogproject.global.exception.ExceptionResponseCode;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Objects;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class CommentService {
 
@@ -33,11 +38,31 @@ public class CommentService {
                 .user(user)
                 .post(post)
                 .build();
-        user.addComment(comment);
-        post.addComment(comment);
         commentRepository.save(comment);
+//        for(Post temp : user.getPostList()){
+//            if(Objects.equals(temp.getId(), postId)){
+//                for(Comment comment1 : temp.getCommentList()){
+//                    log.info(String.valueOf(comment1.getId()));
+//                }
+//            }
+//        }
         return new CommonResponse(CommonResponseCode.ADD_COMMENT_SUCCESS);
     }
 
 
+    @Transactional
+    public CommonResponse addLike(Long userId, Long postId) {
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new CustomException(ExceptionResponseCode.NOT_FOUND_USER)
+        );
+        Post post = postRepository.findById(postId).orElseThrow(
+                () -> new CustomException(ExceptionResponseCode.NOT_FOUND_POST)
+        );
+        post.addLike();
+//        for(Post temp : user.getPostList()){
+//            if(Objects.equals(temp.getId(), postId))
+//                log.info(String.valueOf(temp.getCountLike()));
+//        }
+        return new CommonResponse(CommonResponseCode.ADD_LIKE_SUCCESS);
+    }
 }
