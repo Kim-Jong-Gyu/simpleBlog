@@ -1,5 +1,6 @@
 package com.example.simpleblogproject.domain.post.entity;
 
+import com.example.simpleblogproject.domain.post.dto.UpdatePostRequestDto;
 import com.example.simpleblogproject.domain.user.entity.User;
 import com.example.simpleblogproject.domain.user.entity.UserRoleEnum;
 import jakarta.persistence.*;
@@ -65,4 +66,10 @@ public class Post {
         this.user = user;
     }
 
+    public void update(UpdatePostRequestDto requestDto, String[] urlArr) {
+        this.title = requestDto.getTitle();
+        this.content = requestDto.getContent();
+        this.pictureUrl = urlArr[0];
+        this.picturePath = urlArr[1];
+    }
 }

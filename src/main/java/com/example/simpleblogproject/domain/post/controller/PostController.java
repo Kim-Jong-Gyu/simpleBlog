@@ -3,6 +3,7 @@ package com.example.simpleblogproject.domain.post.controller;
 import com.example.simpleblogproject.domain.post.dto.AddPostRequestDto;
 import com.example.simpleblogproject.domain.post.dto.GetPostResponseDto;
 import com.example.simpleblogproject.domain.post.dto.GetTotalPostsResponseDto;
+import com.example.simpleblogproject.domain.post.dto.UpdatePostRequestDto;
 import com.example.simpleblogproject.domain.post.service.PostService;
 import com.example.simpleblogproject.domain.security.userDetails.UserDetailsImpl;
 import com.example.simpleblogproject.global.common.CommonResponse;
@@ -49,4 +50,11 @@ public class PostController {
         return ResponseEntity.status(HttpStatus.OK).body(getPostResponseDto);
     }
 
+    @PatchMapping("/{postId}")
+    public ResponseEntity<CommonResponse> updatePost(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                                     @PathVariable Long postId,
+                                                     @ModelAttribute UpdatePostRequestDto requestDto) throws UnsupportedEncodingException {
+        CommonResponse commonResponse = postService.updatePost(userDetails.getUser().getId(), postId, requestDto);
+        return ResponseEntity.status(HttpStatus.OK).body(commonResponse);
+    }
 }
