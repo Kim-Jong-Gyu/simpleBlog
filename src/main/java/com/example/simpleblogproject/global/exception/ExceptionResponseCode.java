@@ -20,6 +20,8 @@ public enum ExceptionResponseCode {
     EMAIL_CODE_NOT_MATCH(HttpStatus.BAD_REQUEST, "이메일 인증번호가 일치하지 않습니다."),
     // 해당 포스트가 없습니다.
     NOT_FOUND_POST(HttpStatus.NOT_FOUND, "해당 게시글이 없습니다."),
+    // 해당 POST ID는 User가 작성한게 아닙니다.
+    NOT_MATCH_USER_POST(HttpStatus.BAD_REQUEST, "해당 유저가 해당 포스트를 작성하지 않았습니다."),
     //백오피스 기능 활성화 X
     NOT_OPERATE_BACKOFFICE(HttpStatus.BAD_REQUEST, "백 오피스 기능을 아직 구현하지 않았습니다.");
     private final HttpStatus httpStatus;

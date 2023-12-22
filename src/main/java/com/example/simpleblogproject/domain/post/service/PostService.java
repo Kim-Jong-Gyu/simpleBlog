@@ -3,6 +3,7 @@ package com.example.simpleblogproject.domain.post.service;
 import com.example.simpleblogproject.domain.post.dto.AddPostRequestDto;
 import com.example.simpleblogproject.domain.post.dto.GetPostResponseDto;
 import com.example.simpleblogproject.domain.post.dto.GetTotalPostsResponseDto;
+import com.example.simpleblogproject.domain.post.dto.UpdatePostRequestDto;
 import com.example.simpleblogproject.domain.post.entity.Post;
 import com.example.simpleblogproject.domain.post.repository.PostRepository;
 import com.example.simpleblogproject.domain.s3.S3Service;
@@ -13,11 +14,11 @@ import com.example.simpleblogproject.global.common.CommonResponseCode;
 import com.example.simpleblogproject.global.exception.CustomException;
 import com.example.simpleblogproject.global.exception.ExceptionResponseCode;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
@@ -63,8 +64,22 @@ public class PostService {
                 .post(findById(postId))
                 .build();
     }
+
+    @Transactional
+    public CommonResponse updatePost(Long userId, Long postId, UpdatePostRequestDto requestDto) throws UnsupportedEncodingException {
+        Post post = findById(postId);
+        String[] urlArr = new String[2];
+        if(!Objects.equals(post.getUser().getId(), userId)){
+            throw new CustomException(ExceptionResponseCode.NOT_MATCH_USER_POST);
+        }
+        if (requestDto.getPicture() != null) {
+            urlArr = s3Service.saveFile(post.getUser().getNickname(), requestDto.getPicture());
+        }
+        post.update(requestDto, urlArr);
+        return new CommonResponse(CommonResponseCode.UPDATE_POST_SUCCESS);
+    }
+
     private Post findById(Long postId){
         return postRepository.findById(postId).orElseThrow(() -> new CustomException(ExceptionResponseCode.NOT_FOUND_POST));
     }
-
 }
